@@ -41,20 +41,7 @@ public class BeanConfiguration {
         return new UserService2();
     }
 
-    @Bean
-    public List<Application> predefinedApplications() {
 
-        Application app1 = new Application(new ConsumerLoan(new BigDecimal(100000), 12, 2.78), new User("ilker", "kuş", "ilker@mail.com", "password", "5422123456", true), LocalDateTime.now());
-        Application app2 = new Application(new HouseLoan(new BigDecimal(200000), 18, 3.59), new User("ahmet", "kuş", "ahmet@mail.com", "password", "564651213", true), LocalDateTime.now());
-        Application app3 = new Application(new VechileLoan(new BigDecimal(300000), 24, 3.20), new User("ayşe", "kuş", "ayse@mail.com", "password", "553461276", true), LocalDateTime.now());
-
-        applicationRepository.getApplicationList().add(app1);
-        applicationRepository.getApplicationList().add(app2);
-        applicationRepository.getApplicationList().add(app3);
-
-
-        return applicationRepository.getApplicationList();
-    }
 
     @Bean
     public List<Bank> predefinedBanks() {
@@ -115,5 +102,26 @@ public class BeanConfiguration {
         creditCardRepository.save(creditCard6);
 
         return creditCardRepository.getcreditCardList();
+    }
+
+    @Bean
+    public List<Application> predefinedApplications() {
+
+        Application app1 = new Application(new ConsumerLoan(new BigDecimal(100000), 12, 2.78), new User("ilker", "kuş", "ilker@mail.com", "password", "5422123456", true), LocalDateTime.now());
+        Application app2 = new Application(new HouseLoan(new BigDecimal(200000), 18, 3.59), new User("ahmet", "kuş", "ahmet@mail.com", "password", "564651213", true), LocalDateTime.now());
+        Application app3 = new Application(new VechileLoan(new BigDecimal(300000), 24, 3.20), new User("ayşe", "kuş", "ayse@mail.com", "password", "553461276", true), LocalDateTime.now());
+        Application app4 = new Application(creditCardRepository.getcreditCardList().stream().filter(creditCard -> creditCard.getBank().getName().equals("Garanti")).findFirst().get(),new User("ilker", "kuş", "ilker@mail.com", "password", "5422123456", true),LocalDateTime.now());
+        Application app5 = new Application(creditCardRepository.getcreditCardList().stream().filter(creditCard -> creditCard.getBank().getName().equals("AkBank")).findFirst().get(),new User("ilker", "kuş", "ilker@mail.com", "password", "5422123456", true),LocalDateTime.now());
+
+
+        applicationRepository.getApplicationList().add(app1);
+        applicationRepository.getApplicationList().add(app2);
+        applicationRepository.getApplicationList().add(app3);
+        applicationRepository.getApplicationList().add(app4);
+        applicationRepository.getApplicationList().add(app5);
+
+
+
+        return applicationRepository.getApplicationList();
     }
 }
